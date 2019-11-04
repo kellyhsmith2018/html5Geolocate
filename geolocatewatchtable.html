@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <script src="js/jquery.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+    <body>
+        <div id='lblError'></div>
+        <div>
+            <table class="table table-striped" id="location-list"><tr><th>Num</th><th>Latitude</th><th>Longitude</th><th>Accuracy</th></tr></table>
+        </div>
+<script>
+var reqNumber = 1
+/*reqNumber += 1;*/
+//create the watch
+var watchId = navigator.geolocation.watchPosition(updateLocation, handleLocationError);
+
+function updateLocation(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  var accuracy = position.coords.accuracy;
+  // do something with values
+addItem(reqNumber,latitude,longitude,accuracy);
+}
+function handleLocationError(error) {
+switch(error.code) {
+  case 0:
+document.getElementById("lblError").innerHTML="Unknown Error";
+   // UNKNOWN_ERROR
+   //Error retrieving location
+   break;
+  case 1:
+   // PERMISSION_DENIED
+   //User denied permission
+document.getElementById("lblError").innerHTML="Permission Error";
+   break;
+  case 2:
+document.getElementById("lblError").innerHTML="Position Unavailable";
+   // POSITION_UNAVAILABLE
+   //Location technique failed
+  case 3:
+document.getElementById("lblError").innerHTML="Timeout";
+    // TIMEOUT
+    //Specified timeout reached
+  break;
+ }
+}
+function addItem(num,lat,lon,acc){
+    var table = document.getElementById("location-list");
+   /* var candidate;
+    candidate.value = "Test1"; */
+    var tr = document.createElement("tr"); 
+    var tdNum = document.createElement("td");
+    var tdLat = document.createElement("td");
+var tdLon = document.createElement("td");
+var tdAcc = document.createElement("td");
+tdNum.appendChild(document.createTextNode(num));
+  tdLat.appendChild(document.createTextNode(lat));
+  tdLon.appendChild(document.createTextNode(lon));
+  tdAcc.appendChild(document.createTextNode(acc));
+  tr.appendChild(tdNum);
+  tr.appendChild(tdLat);
+tr.appendChild(tdLon);
+tr.appendChild(tdAcc);
+    table.appendChild(tr);
+    reqNumber+=1;
+}
+   </script> 
+</body></html>
